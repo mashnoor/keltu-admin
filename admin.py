@@ -7,7 +7,7 @@ from pymongo import MongoClient
 from flask import Flask
 from flask import request
 import flask
-
+from time import gmtime, strftime
 client = MongoClient()
 db = client.keltu
 dept_db = db.departments
@@ -57,7 +57,8 @@ def addarchive():
             "archivetype":archivetype,
             "semester":semester,
             "teachersname":teachersname,
-            "link":link
+            "link":link,
+            "time":strftime("%Y-%m-%d %H:%M:%S", gmtime())
         })
         return flask.render_template('addresult.html', success=True)
 
@@ -100,8 +101,33 @@ def addarchivetype():
     })
     return flask.redirect(flask.url_for('archivetypes'))
 
+@app.route('/viewarchive')
+def viewarchive():
+    archives = archive_db.find()
+    return flask.render_template('viewfull.html', archives=archives)
 
 
+#Deletes
+@app.route('/deletetype/<atype>')
+def deletetype(atype):
+    archivetypes_db.remove({
+        "type":atype
+    })
+    return flask.redirect(flask.url_for('archivetypes'))
+
+
+@app.route('/deletedept/<dept>')
+def deletedept(dept):
+    dept_db.remove({
+        "dept":dept
+    })
+    return flask.redirect(flask.url_for('departments'))
+@app.route('/deletearchive/<link>')
+def deletearchive(link):
+    archive_db.remove({
+        "link":link
+    })
+    return flask.redirect(flask.url_for('viewarchive'))
 
 ''' Web Hook Don't Touh'''
 @app.route('/webhook', methods=['POST'])

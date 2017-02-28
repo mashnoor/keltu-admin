@@ -39,7 +39,7 @@
                                {{ subject }}
                                {% endfor %}
                            </td>
-                             <td><a href="#" class="btn btn-danger" role="button">Delete</a></td>
+                             <td><a href="{{ url_for('deletedept', dept= department['dept']) }} " class="btn btn-danger" role="button">Delete</a></td>
                            </tr>
 
                         {% endfor %}

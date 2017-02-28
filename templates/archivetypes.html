@@ -22,7 +22,7 @@
 
                                <td>{{ archivetype['type'] }}
 
-                             <td><a href="#" class="btn btn-danger" role="button">Delete</a></td>
+                             <td><a href="{{ url_for('deletetype', atype =archivetype['type']) }}" class="btn btn-danger" role="button">Delete</a></td>
                            </tr>
 
                         {% endfor %}

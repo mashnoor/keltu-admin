@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<table class="table table-bordered table-striped">
+                            <tr>
+                                <th>Archive ID</th>
+                                <th>Title</th>
+                                <th>Department</th>
+                                <th>Subject</th>
+                                <th>Archive Type</th>
+                                <th>Semester</th>
+                                <th>Teacher's Name</th>
+                                <th>Link</th>
+                                <th>Timestamp</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                            {% for archive in archives %}
+                           <tr>
+                               <td>{{ loop.index }}</td>
+                               <td>{{ archive['title'] }}</td>
+                               <td>{{ archive['department'] }}</td>
+                               <td>{{ archive['subject'] }}</td>
+                               <td>{{ archive['archivetype'] }}</td>
+                               <td>{{ archive['semester'] }}</td>
+                               <td>{{ archive['teachersname'] }}</td>
+                               <td>{{ archive['link'] }}</td>
+                               <td>{{ archive['time'] }}</td>
+                             <td><a href="{{ url_for('deletearchive', link=archive['link']) }} " class="btn btn-danger" role="button">Delete</a></td>
+                           </tr>
+
+                        {% endfor %}
+                    </table>
+{% endblock %}
