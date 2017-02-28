@@ -28,7 +28,7 @@
                                <td>{{ archive['teachersname'] }}</td>
                                <td>{{ archive['link'] }}</td>
                                <td>{{ archive['time'] }}</td>
-                             <td><a href="{{ url_for('deletearchive', link=archive['link']) }} " class="btn btn-danger" role="button">Delete</a></td>
+                             <td><a href="{{ url_for('deletearchive', time=archive['time']) }} " class="btn btn-danger" role="button">Delete</a></td>
                            </tr>
 
                         {% endfor %}
