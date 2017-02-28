@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+
+<form method="post" action="/addarchive">
+  <div class="form-group">
+    <label >Title/Name</label>
+    <input type="text" class="form-control" name="title" required="required"  placeholder="Enter Title">
+
+  </div>
+
+    <div class="form-group">
+        <label>Select Department</label>
+          <select name="department" class="form-control">
+              {% for department in departments %}
+              <option value="{{ department['dept'] }}">{{ department['dept'] }}</option>
+              {% endfor %}
+
+          </select>
+    </div>
+     <div class="form-group">
+        <label>Enter Subject</label>
+          <input type="text" class="form-control" name="subject" required="required"  placeholder="Subject">
+    </div>
+    <div class="form-group">
+        <label>Select Archive Type</label>
+        <select name="archivetype" class="form-control">
+            {% for archivetype in archivetypes %}
+            <option value="{{ archivetype['type'] }}">{{ archivetype['type'] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+       <div class="form-group">
+        <label>Enter Semester</label>
+
+          <select name="semester" class="form-control">
+              <option value="first">First</option>
+              <option value="second">Second</option>
+              <option value="third">Third</option>
+              <option value="fourth">Fourth</option>
+              <option value="fifth">Fifth</option>
+              <option value="sixth">Sixth</option>
+              <option value="seventh">Seventh</option>
+              <option value="eighth">Eighth</option>
+          </select>
+    </div>
+    <div class="form-group">
+    <label >Teachers Name</label>
+    <input type="text" class="form-control" name="teachersname" required="required" placeholder="Enter Teachers Name">
+
+   </div>
+
+      <div class="form-group">
+    <label>Drive Link</label>
+    <input type="text" class="form-control" name="link" required="required"  placeholder="Enter Drive's Link">
+
+    </div>
+
+
+
+
+  <button type="submit" class="btn btn-success">Add to Archive</button>
+</form>
+
+{% endblock %}

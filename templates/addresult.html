@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+{% if success %}
+<div class="alert alert-success">
+  <strong>Success!</strong> Added Successfully.
+</div>
+{% else %}
+<div class="alert alert-danger">
+  <strong>Failed!</strong> {{ msg }}
+</div>
+{% endif %}
+<a href="{{ url_for('addnewarchive') }}" class="btn btn-info" role="button">Go Back</a>
+{% endblock %}

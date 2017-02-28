@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<h1>Departments</h1>
+             <form class="form-inline" method="post" action="/adddept">
+                 <h4>Add New Dept.</h4>
+                <input type="text" name="dept" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Enter Dept.">
+                <button type="submit" class="btn btn-success">Add New</button>
+                </form>
+
+                <form class="form-inline" method="post" action="/addsubject">
+                    <h4>Add New Subject</h4>
+                    <select name="dept" class="form-control">
+                        {% for department in departments_cpy %}
+                        <option value="{{ department['dept'] }}">{{ department['dept'] }}</option>
+                        {% endfor %}
+
+                    </select>
+                   <input type="text" name="subject" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Enter Subject.">
+                <button type="submit" class="btn btn-success">Add Subject</button>
+                </form>
+                    <table class="table table-bordered table-striped">
+                            <tr>
+                                <th>Department ID</th>
+                                <th>Department Name</th>
+                                <th>Department Subjects</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                            {% for department in departments %}
+                           <tr>
+                                <td>{{ loop.index }}</td>
+
+                               <td>{{ department['dept'] }}
+                           <td>
+                              {% for subject in department.subjects %}
+                               {{ subject }}
+                               {% endfor %}
+                           </td>
+                             <td><a href="#" class="btn btn-danger" role="button">Delete</a></td>
+                           </tr>
+
+                        {% endfor %}
+                    </table>
+
+{% endblock %}
