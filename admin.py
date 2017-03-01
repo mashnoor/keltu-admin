@@ -233,7 +233,11 @@ def webhook():
     if archives.count() == 0:
         return generate_response("Sorry, I don't have the " + subject + " " + type + " :'( :(")
     else:
-        return generate_response("Yesss! I have it :*")
+        result = "Here's what I have for you <3 \r\n\r\n"
+        for archive in archives:
+            result+= archive['title'] + " By " + archive['teachersname'] + "\r\n"
+            result+= "Link: " + archive['link'] + "\r\n\r\n"
+        return generate_response(result)
 
     print("Request:")
     resp = json.dumps(req, indent=4)
