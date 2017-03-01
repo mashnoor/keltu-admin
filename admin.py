@@ -116,7 +116,7 @@ def addarchive():
         "dept":department,
         "subjects":subject
     })
-    print isFound
+    #print isFound
     if isFound is None:
         msg = "Subject " + subject + " is not added in " + department + " department. Add it and try again."
         return flask.render_template('addresult.html', success=False, msg=msg)
@@ -222,17 +222,17 @@ def webhook():
 
 
 
-    print(dept)
-    print(subject)
-    print(semester)
-    print(type)
+    #print(dept)
+    #print(subject)
+    #print(semester)
+    #print(type)
     archives = archive_db.find({
         "department":dept,
         "archivetype":type,
         "semester":semester,
         "subject":subject
     })
-    print(archives.count())
+    #print(archives.count())
     if archives.count() == 0:
         return generate_response("Sorry, I don't have the " + subject + " " + type + " :'( :(")
     else:
@@ -242,7 +242,7 @@ def webhook():
             result+= "Link: " + archive['link'] + "\r\n\r\n"
         return generate_response(result)
 
-    print("Request:")
+    #print("Request:")
     resp = json.dumps(req, indent=4)
     #print(resp)
 
@@ -265,6 +265,6 @@ def generate_response(text):
 if __name__ == '__main__':
     port = 5001
 
-    print("Starting app on port %d" % port)
+    #print("Starting app on port %d" % port)
 
     app.run(port=port)
