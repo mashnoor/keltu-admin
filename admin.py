@@ -56,6 +56,9 @@ def request_loader(request):
 
 
 '''Authetication Processes'''
+@app.route('/')
+def index():
+    return flask.redirect(flask.url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
