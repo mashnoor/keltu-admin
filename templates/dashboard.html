@@ -2,5 +2,6 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
- <h2>Hello {{ current_user.id }}</h2>
+ <h2>Hello {{ current_user.id }}!</h2>
+<img src="{{ url_for('static', filename='keltulogo.jpg') }}" height="300" width="300">
 {% endblock %}

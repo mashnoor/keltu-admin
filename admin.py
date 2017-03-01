@@ -21,7 +21,7 @@ archive_db = db.archive
 app = Flask(__name__)
 app.secret_key = 'super secret string'
 login_manager.init_app(app)
-users = {'mashnoor': {'password': 'secret'}}
+users = {'keltuadmin': {'password': 'keltu9876'}}
 
 class User(flask_login.UserMixin):
     pass
@@ -72,7 +72,7 @@ def login():
         flask_login.login_user(user)
         return flask.redirect(flask.url_for('dashboard'))
 
-    return 'Bad login'
+    return "Your credentials didn't match :3"
 
 @app.route('/logout')
 def logout():
