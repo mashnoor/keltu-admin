@@ -2,7 +2,22 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
-<table class="table table-bordered table-striped">
+<h1>Archive</h1>
+<form class="form-inline" method="post">
+                 <label >Filter Dept.</label>
+                 <select name="viewwhat" class="form-control">
+                     <option value="all">all</option>
+                        {% for department in departments %}
+                        <option value="{{ department['dept'] }}">{{ department['dept'] }}</option>
+                        {% endfor %}
+
+                    </select>
+                <button type="submit" class="btn btn-success">Filter</button>
+
+                </form>
+
+                <h5>Viewing: {{ session.get('viewwhat', 'all') }} department(s)</h5>
+                <table class="table table-bordered table-striped">
                             <tr>
                                 <th>Archive ID</th>
                                 <th>Title</th>
@@ -28,7 +43,10 @@
                                <td>{{ archive['teachersname'] }}</td>
                                <td>{{ archive['link'] }}</td>
                                <td>{{ archive['time'] }}</td>
-                             <td><a href="{{ url_for('deletearchive', time=archive['time']) }} " class="btn btn-danger" role="button">Delete</a></td>
+                             <td>
+                                 <a href="{{ url_for('editarchive', time=archive['time']) }} " class="btn btn-info" role="button">Edit</a>
+                                 <a href="{{ url_for('deletearchive', time=archive['time']) }} " class="btn btn-danger" role="button">Delete</a>
+                             </td>
                            </tr>
 
                         {% endfor %}

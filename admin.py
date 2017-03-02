@@ -3,7 +3,7 @@
 import json
 import os
 from pymongo import MongoClient
-
+from flask import session
 from flask import Flask
 from flask import request
 import flask
@@ -178,12 +178,69 @@ def addarchivetype():
     })
     return flask.redirect(flask.url_for('archivetypes'))
 
-@app.route('/viewarchive')
+@app.route('/viewarchive', methods=['GET', 'POST'])
 @flask_login.login_required
 def viewarchive():
-    archives = archive_db.find()
-    return flask.render_template('viewfull.html', archives=archives)
+    departments = dept_db.find()
+    if flask.request.method == 'POST':
+        session['viewwhat'] = request.form.get('viewwhat')
 
+    if session.get('viewwhat') is None or session.get('viewwhat') =='all' or session.get('viewwhat') == '':
+            archives = archive_db.find()
+            return flask.render_template('viewfull.html', archives=archives, departments=departments)
+
+    else:
+        archives = archive_db.find({
+            'department':session.get('viewwhat')
+        })
+        return flask.render_template('viewfull.html', archives=archives, departments=departments)
+
+#Edit Archive
+@app.route('/editarchive/<time>')
+def editarchive(time):
+    departments = dept_db.find()
+    archivetypes = archivetypes_db.find()
+
+    entry = archive_db.find_one({
+        'time':time
+    })
+    print(entry['title'])
+    return flask.render_template('editarchive.html', departments=departments, archivetypes=archivetypes, entry=entry)
+
+#Update
+@app.route('/updatearchive', methods=['POST'])
+def updatearchive():
+    archive_db.remove({
+        "time": request.form.get('time')
+    })
+    title = str(request.form.get('title')).strip()
+    department = str(request.form.get('department')).strip().lower()
+    subject = str(request.form.get('subject')).strip().lower()
+    archivetype = str(request.form.get('archivetype')).strip()
+    semester = str(request.form.get('semester')).strip().lower()
+    teachersname = str(request.form.get('teachersname')).strip()
+    link = str(request.form.get('link')).strip()
+    isFound = dept_db.find_one({
+        "dept": department,
+        "subjects": subject
+    })
+    # print isFound
+    if isFound is None:
+        msg = "Subject " + subject + " is not added in " + department + " department. Add it and try again."
+        return flask.render_template('addresult.html', success=False, msg=msg)
+
+    else:
+        archive_db.insert_one({
+            "title": title,
+            "department": department,
+            "subject": subject,
+            "archivetype": archivetype,
+            "semester": semester,
+            "teachersname": teachersname,
+            "link": link,
+            "time": strftime("%Y-%m-%d %H:%M:%S", gmtime())
+        })
+        return flask.render_template('addresult.html', success=True)
 
 #Deletes
 @app.route('/deletetype/<atype>')
@@ -268,4 +325,5 @@ if __name__ == '__main__':
 
     #print("Starting app on port %d" % port)
 
+    #app.run()
     app.run(host='0.0.0.0', port=port)

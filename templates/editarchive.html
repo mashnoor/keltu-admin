@@ -2,11 +2,11 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
-<h1>Add New Archive</h1>
-<form method="post" action="/addarchive">
+<h3>Edit Archive Entry</h3>
+<form method="post" action="/updatearchive">
   <div class="form-group">
     <label >Title/Name</label>
-    <input type="text" class="form-control" name="title" required="required"  placeholder="Enter Title">
+    <input type="text" class="form-control" name="title" required="required" value="{{ entry['title'] }}" placeholder="Enter Title">
 
   </div>
 
@@ -14,14 +14,18 @@
         <label>Select Department</label>
           <select name="department" class="form-control">
               {% for department in departments %}
+              {%if department['dept'] == entry['department'] %}
+              <option value="{{ department['dept'] }}" selected="selected">{{ department['dept'] }}</option>
+              {% else %}
               <option value="{{ department['dept'] }}">{{ department['dept'] }}</option>
+              {% endif %}
               {% endfor %}
 
           </select>
     </div>
      <div class="form-group">
         <label>Enter Subject</label>
-          <input type="text" class="form-control" name="subject" required="required"  placeholder="Subject">
+          <input type="text" class="form-control" name="subject" required="required" value="{{ entry['subject'] }}"  placeholder="Subject">
     </div>
     <div class="form-group">
         <label>Select Archive Type</label>
@@ -32,11 +36,12 @@
         </select>
     </div>
        <div class="form-group">
-        <label>Enter Semester</label>
+        <label>Semester</label>
 
           <select name="semester" class="form-control">
+              <option value="{{ entry['semester'] }}" selected="selected">{{ entry['semester'] }}</option>
               <option value="first">first</option>
-              <option value="second">second</option>
+              <option value="second">econd</option>
               <option value="third">third</option>
               <option value="fourth">fourth</option>
               <option value="fifth">fifth</option>
@@ -47,20 +52,21 @@
     </div>
     <div class="form-group">
     <label >Teachers Name</label>
-    <input type="text" class="form-control" name="teachersname" required="required" placeholder="Enter Teachers Name">
+    <input type="text" class="form-control" name="teachersname" required="required" value="{{ entry['teachersname'] }}" placeholder="Enter Teachers Name">
 
    </div>
 
       <div class="form-group">
     <label>Drive Link</label>
-    <input type="text" class="form-control" name="link" required="required"  placeholder="Enter Drive's Link">
+    <input type="text" class="form-control" name="link" required="required" value="{{ entry['link'] }}"  placeholder="Enter Drive's Link">
 
     </div>
 
+    <input type="hidden" value="{{ entry['time'] }}" name="time">
 
 
 
-  <button type="submit" class="btn btn-success">Add to Archive</button>
+  <button type="submit" class="btn btn-success">Update Archive</button>
 </form>
 
 {% endblock %}
