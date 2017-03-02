@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 
 import json
 import os
@@ -213,6 +213,7 @@ def deletearchive(time):
 ''' Web Hook Don't Touh'''
 @app.route('/webhook', methods=['POST'])
 def webhook():
+    print("Etering Webhook")
     req = request.get_json(silent=True, force=True)
     dept = req["result"]["parameters"]["department"]
     subject = req["result"]["parameters"]["subjects"]
@@ -221,7 +222,7 @@ def webhook():
 
 
 
-
+    print(req)
     #print(dept)
     #print(subject)
     #print(semester)
@@ -263,8 +264,8 @@ def generate_response(text):
 
 
 if __name__ == '__main__':
-    port = 5001
+    port = 5002
 
     #print("Starting app on port %d" % port)
 
-    app.run(port=port)
+    app.run(host='0.0.0.0', port=port)
