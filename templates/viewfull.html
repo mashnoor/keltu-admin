@@ -17,6 +17,8 @@
                 </form>
 
                 <h5>Viewing: {{ session.get('viewwhat', 'all') }} department(s)</h5>
+                <div class="table-responsive">
+                  
                 <table class="table table-bordered table-striped">
                             <tr>
                                 <th>Archive ID</th>
@@ -51,4 +53,6 @@
 
                         {% endfor %}
                     </table>
+                </div>
+
 {% endblock %}
