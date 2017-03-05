@@ -12,13 +12,30 @@
                         {% endfor %}
 
                     </select>
-                <button type="submit" class="btn btn-success">Filter</button>
+
+     
+
+          <select name="semester" class="form-control">
+              <option value="{{ session.get('semester', 'all') }}" selected="selected">Selected: {{ session.get('semester', 'all') }}</option>
+              <option value="all">all</option>
+              <option value="first">first</option>
+              <option value="second">second</option>
+              <option value="third">third</option>
+              <option value="fourth">fourth</option>
+              <option value="fifth">fifth</option>
+              <option value="sixth">sixth</option>
+              <option value="seventh">seventh</option>
+              <option value="eighth">eighth</option>
+          </select>
+      <button type="submit" class="btn btn-success">Filter</button>
 
                 </form>
 
-                <h5>Viewing: {{ session.get('viewwhat', 'all') }} department(s)</h5>
+                <h5>Showing: {{ session.get('viewwhat', 'all') }} department(s) Semester: {{ session.get('semester', 'all') }} </h5>
                 <div class="table-responsive">
                   
+                </div>
+
                 <table class="table table-bordered table-striped">
                             <tr>
                                 <th>Archive ID</th>
@@ -53,6 +70,4 @@
 
                         {% endfor %}
                     </table>
-                </div>
-
 {% endblock %}

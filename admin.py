@@ -21,7 +21,11 @@ archive_db = db.archive
 app = Flask(__name__)
 app.secret_key = 'super secret string'
 login_manager.init_app(app)
-users = {'keltuadmin': {'password': 'keltu9876'}}
+users = {'keltu': {'password': 'keltu9876', 'role':'Super Admin'},
+        'Sawrup': {'password': 'sawrup4455', 'role':'Admin'},
+        'Bhubon': {'password': 'bhubon9871', 'role':'Admin'},
+        'Rahat': {'password': 'rahat4780', 'role':'Admin'}
+    }
 
 class User(flask_login.UserMixin):
     pass
@@ -184,16 +188,28 @@ def viewarchive():
     departments = dept_db.find()
     if flask.request.method == 'POST':
         session['viewwhat'] = request.form.get('viewwhat')
+        session['semester'] = request.form.get('semester')
 
-    if session.get('viewwhat') is None or session.get('viewwhat') =='all' or session.get('viewwhat') == '':
+    if session.get('viewwhat', 'all')=='all':
+        if session.get('semester', 'all') == 'all':
             archives = archive_db.find()
-            return flask.render_template('viewfull.html', archives=archives, departments=departments)
+        else:
+            archives = archive_db.find({
+                "semester":session.get('semester')
+                })
+        #return flask.render_template('viewfull.html', archives=archives, departments=departments)
 
-    else:
+    elif session.get('semester','all')=='all':
+
         archives = archive_db.find({
             'department':session.get('viewwhat')
         })
-        return flask.render_template('viewfull.html', archives=archives, departments=departments)
+    else:
+          archives = archive_db.find({
+            'department':session.get('viewwhat'),
+            'semester':session.get('semester')
+        })
+    return flask.render_template('viewfull.html', archives=archives, departments=departments)
 
 #Edit Archive
 @app.route('/editarchive/<time>')
@@ -210,9 +226,7 @@ def editarchive(time):
 #Update
 @app.route('/updatearchive', methods=['POST'])
 def updatearchive():
-    archive_db.remove({
-        "time": request.form.get('time')
-    })
+   
     title = str(request.form.get('title')).strip()
     department = str(request.form.get('department')).strip().lower()
     subject = str(request.form.get('subject')).strip().lower()
@@ -230,6 +244,9 @@ def updatearchive():
         return flask.render_template('addresult.html', success=False, msg=msg)
 
     else:
+        archive_db.remove({
+        "time": request.form.get('time')
+        })
         archive_db.insert_one({
             "title": title,
             "department": department,
@@ -325,5 +342,5 @@ if __name__ == '__main__':
 
     #print("Starting app on port %d" % port)
 
-    #app.run(port=port)
-    app.run(host='0.0.0.0', port=port)
+    app.run(port=port)
+    #app.run(host='0.0.0.0', port=port)
