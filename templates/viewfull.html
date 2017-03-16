@@ -13,6 +13,14 @@
 
                     </select>
 
+          <select name="archivetype" class="form-control">
+                     <option value="all">all</option>
+                        {% for type in types %}
+                        <option value="{{ type['type'] }}">{{ type['type'] }}</option>
+                        {% endfor %}
+
+                    </select>
+             <input type="text" name="subject" value="{{ session.get('subject', 'all') }}" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Enter Course Name">
      
 
           <select name="semester" class="form-control">
@@ -31,7 +39,8 @@
 
                 </form>
 
-                <h5>Showing: {{ session.get('viewwhat', 'all') }} department(s) Semester: {{ session.get('semester', 'all') }} </h5>
+<h5>Current Filter:<b>Department:</b> {{ session.get('viewwhat', 'all') }}  <b>Semester:</b> {{ session.get('semester', 'all') }}
+    <b>Subject:</b> {{ session.get('subject', 'all') }} <b>Type:</b> {{ session.get('archivetype', 'all') }} </h5>
                 <div class="table-responsive">
                   <table class="table table-bordered table-striped">
                             <tr>
@@ -57,7 +66,7 @@
                                <td>{{ archive['archivetype'] }}</td>
                                <td>{{ archive['semester'] }}</td>
                                <td>{{ archive['teachersname'] }}</td>
-                               <td>{{ archive['link'] }}</td>
+                               <td><a href="{{ archive['link'] }}" class="btn btn-success" target="_blank">Go To Link</a></td>
                                <td>{{ archive['time'] }}</td>
                              <td>
                                  <a href="{{ url_for('editarchive', time=archive['time']) }} " class="btn btn-info" role="button">Edit</a>

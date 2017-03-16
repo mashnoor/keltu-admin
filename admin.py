@@ -189,27 +189,28 @@ def viewarchive():
     if flask.request.method == 'POST':
         session['viewwhat'] = request.form.get('viewwhat')
         session['semester'] = request.form.get('semester')
+        session['subject'] = request.form.get('subject')
+        session['archivetype'] = request.form.get('archivetype')
 
-    if session.get('viewwhat', 'all')=='all':
-        if session.get('semester', 'all') == 'all':
-            archives = archive_db.find()
-        else:
-            archives = archive_db.find({
-                "semester":session.get('semester')
-                })
-        #return flask.render_template('viewfull.html', archives=archives, departments=departments)
+    dept_session_val = session.get('viewwhat', 'all')
+    semester_session_val = session.get('semester', 'all')
+    subject_session_val = session.get('subject', 'all')
+    archivetype_session_val = session.get('archivetype', 'all')
+    find_dict = {}
+    if dept_session_val != 'all':
+        find_dict['department'] = dept_session_val
+    if semester_session_val != 'all':
+        find_dict['semester'] = semester_session_val
+    if subject_session_val != 'all' and subject_session_val!= '':
+        find_dict['subject'] = subject_session_val
+    if archivetype_session_val != 'all':
+        find_dict['archivetype'] = archivetype_session_val
 
-    elif session.get('semester','all')=='all':
+    archives = archive_db.find(find_dict)
+    types = archivetypes_db.find()
 
-        archives = archive_db.find({
-            'department':session.get('viewwhat')
-        })
-    else:
-          archives = archive_db.find({
-            'department':session.get('viewwhat'),
-            'semester':session.get('semester')
-        })
-    return flask.render_template('viewfull.html', archives=archives, departments=departments)
+
+    return flask.render_template('viewfull.html', archives=archives, departments=departments, types=types)
 
 #Edit Archive
 @app.route('/editarchive/<time>')
